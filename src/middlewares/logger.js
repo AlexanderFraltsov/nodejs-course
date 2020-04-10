@@ -24,8 +24,8 @@ const winstonFile = createLogger({
 });
 
 const requestHumanReadable = body => {
-  if (!body) return null;
   const arr = Object.entries(body);
+  if (arr.length === 0) return null;
   return `{${arr
     .map(parameter => {
       const [key, value] = parameter;
@@ -40,17 +40,20 @@ const requestHumanReadable = body => {
 
 /* eslint-disable-next-line no-unused-vars */
 const incomingLogger = (req, res, next) => {
-  const { url, method, body } = req;
+  const { url, method, body, query } = req;
+
   const request = requestHumanReadable(body);
+  const params = requestHumanReadable(query);
 
   const logToConsole = `incoming request:
   {
     url: ${url},
     method: ${method},
-    body: ${request}
+    body: ${request},
+    query_params: ${params}
   }`;
 
-  const logToFile = `{ url: ${url}, method: ${method}, body: ${request} }`;
+  const logToFile = `{ url: ${url}, method: ${method}, body: ${request}, query_params: ${params} }`;
 
   winstonConsole.log('info', logToConsole);
   winstonFile.log('info', logToFile);
