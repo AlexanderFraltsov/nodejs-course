@@ -15,7 +15,9 @@
     "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace"
   },
   "nodemonConfig": {
-    "ignore": ["src/logs/*"]
+    "ignore": [
+      "src/logs/*"
+    ]
   },
   "keywords": [
     "rs",
@@ -52,6 +54,7 @@
     "cross-env": "6.0.3",
     "dotenv": "8.2.0",
     "express": "4.17.1",
+    "http-status-codes": "^1.4.0",
     "morgan": "^1.10.0",
     "swagger-ui-express": "4.1.2",
     "uuid": "3.3.3",
