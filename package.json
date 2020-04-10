@@ -16,7 +16,7 @@
   },
   "nodemonConfig": {
     "ignore": [
-      "src/logs/*"
+      "logs/*"
     ]
   },
   "keywords": [

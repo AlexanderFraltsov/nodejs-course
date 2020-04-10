@@ -1,0 +1,2 @@
+{"level":"info","message":"{ url: /boards, method: POST, body: {title: string, columns: [{\"title\":\"string\",\"order\":0}]} }"}
+{"level":"error","message":"Fri, 10 Apr 2020 19:23:50 GMT | Unhandled Rejection: Oops!"}

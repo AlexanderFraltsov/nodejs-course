@@ -1,8 +1,8 @@
 const { createLogger, format, transports } = require('winston');
 const path = require('path');
 
-const infoPath = path.join(__dirname, '../logs/info.log');
-const errorsPath = path.join(__dirname, '../logs/errors.log');
+const infoPath = path.join(__dirname, '../../logs/logs-common.log');
+const errorsPath = path.join(__dirname, '../../logs/logs-errors.log');
 
 const winstonConsole = createLogger({
   format: format.combine(format.colorize(), format.cli()),
@@ -58,4 +58,12 @@ const incomingLogger = (req, res, next) => {
   next();
 };
 
-module.exports = { incomingLogger };
+const processErrorLogger = (message, errorType) => {
+  const time = new Date().toUTCString();
+  const errString = `${time} | ${errorType}: ${message}`;
+
+  winstonConsole.log('error', errString);
+  winstonFile.log('error', errString);
+};
+
+module.exports = { incomingLogger, processErrorLogger };
