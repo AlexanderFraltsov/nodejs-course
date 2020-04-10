@@ -1,4 +1,3 @@
-const morgan = require('morgan');
 const { createLogger, format, transports } = require('winston');
 const path = require('path');
 
@@ -7,33 +6,27 @@ const errorsPath = path.join(__dirname, '../logs/errors.log');
 
 const winstonConsole = createLogger({
   format: format.combine(format.colorize(), format.cli()),
-  transports: [
-    new transports.Console({ level: 'info' }),
-    new transports.Console({ level: 'error' })
-  ]
+  transports: [new transports.Console()]
 });
 
 const winstonFile = createLogger({
+  format: format.json(),
   transports: [
     new transports.File({
       level: 'info',
-      filename: infoPath,
-      format: format.json()
+      filename: infoPath
     }),
     new transports.File({
       level: 'error',
-      filename: errorsPath,
-      format: format.json()
+      filename: errorsPath
     })
   ]
 });
 
-/* eslint-disable-next-line no-unused-vars */
-morgan.token('requestHumanReadable', (req, res) => {
-  const { body } = req;
+const requestHumanReadable = body => {
   if (!body) return null;
   const arr = Object.entries(body);
-  return arr
+  return `{${arr
     .map(parameter => {
       const [key, value] = parameter;
       if (typeof value === 'object') {
@@ -42,26 +35,27 @@ morgan.token('requestHumanReadable', (req, res) => {
       }
       return `${key}: ${value}`;
     })
-    .join(', ');
-});
+    .join(', ')}}`;
+};
 
-const incomingLogger = morgan((tokens, req, res) => {
-  const url = tokens.url(req, res);
-  const method = tokens.method(req, res);
-  const request = tokens.requestHumanReadable(req, res);
+/* eslint-disable-next-line no-unused-vars */
+const incomingLogger = (req, res, next) => {
+  const { url, method, body } = req;
+  const request = requestHumanReadable(body);
 
   const logToConsole = `incoming request:
   {
     url: ${url},
     method: ${method},
-    body: ${request ? `{${request}}` : null}
+    body: ${request}
   }`;
-  const logToFile = `{ url: ${url}, method: ${method}, body: ${
-    request ? `{${request}}` : null
-  } }`;
+
+  const logToFile = `{ url: ${url}, method: ${method}, body: ${request} }`;
 
   winstonConsole.log('info', logToConsole);
   winstonFile.log('info', logToFile);
-});
+
+  next();
+};
 
 module.exports = { incomingLogger };
