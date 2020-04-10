@@ -1,49 +1,17 @@
-const { createLogger, format, transports } = require('winston');
-const path = require('path');
+const { createLogger } = require('winston');
 
-const infoPath = path.join(__dirname, '../../logs/logs-common.log');
-const errorsPath = path.join(__dirname, '../../logs/logs-errors.log');
+const { configConsole, configFile } = require('./logger-config');
+const { getStringFromObject } = require('../utils');
 
-const winstonConsole = createLogger({
-  format: format.combine(format.colorize(), format.cli()),
-  transports: [new transports.Console()]
-});
-
-const winstonFile = createLogger({
-  format: format.json(),
-  transports: [
-    new transports.File({
-      level: 'info',
-      filename: infoPath
-    }),
-    new transports.File({
-      level: 'error',
-      filename: errorsPath
-    })
-  ]
-});
-
-const requestHumanReadable = body => {
-  const arr = Object.entries(body);
-  if (arr.length === 0) return null;
-  return `{${arr
-    .map(parameter => {
-      const [key, value] = parameter;
-      if (typeof value === 'object') {
-        const str = JSON.stringify(value);
-        return `${key}: ${str}`;
-      }
-      return `${key}: ${value}`;
-    })
-    .join(', ')}}`;
-};
+const winstonConsole = createLogger(configConsole);
+const winstonFile = createLogger(configFile);
 
 /* eslint-disable-next-line no-unused-vars */
 const incomingLogger = (req, res, next) => {
   const { url, method, body, query } = req;
 
-  const request = requestHumanReadable(body);
-  const params = requestHumanReadable(query);
+  const request = getStringFromObject(body);
+  const params = getStringFromObject(query);
 
   const logToConsole = `incoming request:
   {
