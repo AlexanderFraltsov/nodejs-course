@@ -40,21 +40,18 @@ const putOneById = async (id, board) => {
 };
 
 const deleteOneById = async boardId => {
-  try {
-    const allTasks = await tasksRepo.getAll();
+  const allTasks = await tasksRepo.getAll();
 
-    const tasks = allTasks
-      .filter(task => task.boardId === boardId)
-      .map(({ id }) => id);
+  const tasks = allTasks
+    .filter(task => task.boardId === boardId)
+    .map(({ id }) => id);
 
-    for (const id of tasks) {
-      await tasksRepo.deleteOneById(id);
-    }
-
-    await boardRepo.deleteOneById(boardId);
-  } catch (err) {
-    throw new Error(`BOARD_${err.message}`);
+  for (const id of tasks) {
+    await tasksRepo.deleteOneById(id);
   }
+
+  const isDeleted = await boardRepo.deleteOneById(boardId);
+  return isDeleted;
 };
 
 module.exports = {

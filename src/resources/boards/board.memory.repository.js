@@ -25,8 +25,11 @@ const putOneById = async (id, board) => {
 
 const deleteOneById = async id => {
   const indexById = boards.findIndex(el => el.id === id);
-  if (indexById === -1) throw new Error('NOT_FOUND');
-  boards.splice(indexById, 1);
+  const isDeleted = indexById !== -1;
+  if (isDeleted) {
+    boards.splice(indexById, 1);
+  }
+  return isDeleted;
 };
 
 module.exports = { getAll, postOne, getOneById, putOneById, deleteOneById };
