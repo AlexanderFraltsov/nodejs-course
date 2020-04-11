@@ -17,9 +17,6 @@ router
   .post(
     catchErrors(async (req, res) => {
       const board = await boardsService.postBoard(req.body);
-      if (!board) {
-        throw new ErrorHandler(BAD_REQUEST, getStatusText(BAD_REQUEST));
-      }
       res.json(board);
     })
   );

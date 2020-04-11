@@ -1,7 +1,6 @@
 const ERRORS = {
-  BAD_REQUEST: { statusCode: 400, message: 'Bad request' },
   TASK_NOT_FOUND: 'Task not found',
-  USER_NOT_FOUND: { statusCode: 404, message: 'User not found' },
+  USER_NOT_FOUND: 'User not found',
   BOARD_NOT_FOUND: 'Board not found'
 };
 
