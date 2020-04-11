@@ -1,31 +1,18 @@
 const { createLogger } = require('winston');
 
 const { configConsole, configFile } = require('./logger-config');
-const { getStringFromObject } = require('../utils');
+const { getLogsFromRequest } = require('../utils');
+const { handleError } = require('../common/error');
 
 const winstonConsole = createLogger(configConsole);
 const winstonFile = createLogger(configFile);
 
 /* eslint-disable-next-line no-unused-vars */
 const incomingLogger = (req, res, next) => {
-  const { url, method, body, query } = req;
-
-  const request = getStringFromObject(body);
-  const params = getStringFromObject(query);
-
-  const logToConsole = `incoming request:
-  {
-    url: ${url},
-    method: ${method},
-    body: ${request},
-    query_params: ${params}
-  }`;
-
-  const logToFile = `{ url: ${url}, method: ${method}, body: ${request}, query_params: ${params} }`;
+  const { logToConsole, logToFile } = getLogsFromRequest(req);
 
   winstonConsole.log('info', logToConsole);
   winstonFile.log('info', logToFile);
-
   next();
 };
 
@@ -37,4 +24,15 @@ const processErrorLogger = (message, errorType) => {
   winstonFile.log('error', errString);
 };
 
-module.exports = { incomingLogger, processErrorLogger };
+/* eslint-disable-next-line no-unused-vars */
+const errorLogger = (err, req, res, next) => {
+  const { statusCode, message } = handleError(err, res);
+  const { logToFile } = getLogsFromRequest(req);
+
+  const time = new Date().toUTCString();
+  const errString = `${time} | Error ${statusCode}: ${message}`;
+  winstonConsole.log('error', errString);
+  winstonFile.log('error', `${errString} | Request: ${logToFile}`);
+};
+
+module.exports = { incomingLogger, processErrorLogger, errorLogger };

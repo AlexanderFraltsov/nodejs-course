@@ -1,3 +1,5 @@
+const { INTERNAL_SERVER_ERROR, getStatusText } = require('http-status-codes');
+
 class ErrorHandler extends Error {
   constructor(statusCode, message) {
     super();
@@ -7,8 +9,14 @@ class ErrorHandler extends Error {
 }
 
 const handleError = (err, res) => {
-  const { statusCode, message } = err;
+  let { statusCode, message } = err;
+  if (!(err instanceof ErrorHandler)) {
+    statusCode = INTERNAL_SERVER_ERROR;
+    message = getStatusText(INTERNAL_SERVER_ERROR);
+  }
+
   res.status(statusCode).send(message);
+  return { statusCode, message };
 };
 
 const catchErrors = fn => async (req, res, next) => {

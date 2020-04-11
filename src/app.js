@@ -2,8 +2,8 @@ const express = require('express');
 const swaggerUI = require('swagger-ui-express');
 const path = require('path');
 const YAML = require('yamljs');
-const { handleError } = require('./common/error');
-const { incomingLogger } = require('./middlewares/logger');
+
+const { incomingLogger, errorLogger } = require('./middlewares/logger');
 
 const userRouter = require('./resources/users/user.router');
 const boardRouter = require('./resources/boards/board.router');
@@ -30,9 +30,6 @@ app.use('/users', userRouter);
 app.use('/boards', boardRouter);
 app.use('/boards', taskRouter);
 
-/* eslint-disable-next-line no-unused-vars */
-app.use((err, req, res, next) => {
-  handleError(err, res);
-});
+app.use(errorLogger);
 
 module.exports = app;
