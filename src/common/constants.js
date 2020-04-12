@@ -1,8 +1,7 @@
 const ERRORS = {
-  BAD_REQUEST: { code: 400, message: 'Bad request' },
-  TASK_NOT_FOUND: { code: 404, message: 'Task not found' },
-  USER_NOT_FOUND: { code: 404, message: 'User not found' },
-  BOARD_NOT_FOUND: { code: 404, message: 'Board not found' }
+  TASK_NOT_FOUND: 'Task not found',
+  USER_NOT_FOUND: 'User not found',
+  BOARD_NOT_FOUND: 'Board not found'
 };
 
 const MESSAGES = {

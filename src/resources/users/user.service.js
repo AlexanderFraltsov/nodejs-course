@@ -30,19 +30,16 @@ const putOneById = async (id, user) => {
 };
 
 const deleteOneById = async userId => {
-  try {
-    const allTasks = await tasksRepo.getAll();
+  const allTasks = await tasksRepo.getAll();
 
-    const tasks = allTasks.filter(task => task.userId === userId);
+  const tasks = allTasks.filter(task => task.userId === userId);
 
-    for (const task of tasks) {
-      await tasksRepo.putOneById(task.id, { ...task, userId: null });
-    }
-
-    await usersRepo.deleteOneById(userId);
-  } catch (err) {
-    throw new Error(`USER_${err.message}`);
+  for (const task of tasks) {
+    await tasksRepo.putOneById(task.id, { ...task, userId: null });
   }
+
+  const isDeleted = await usersRepo.deleteOneById(userId);
+  return isDeleted;
 };
 
 module.exports = {
