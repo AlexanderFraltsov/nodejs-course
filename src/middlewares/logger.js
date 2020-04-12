@@ -22,6 +22,7 @@ const processErrorLogger = (message, errorType) => {
 
   winstonConsole.log('error', errString);
   winstonFile.log('error', errString);
+  return winstonFile;
 };
 
 /* eslint-disable-next-line no-unused-vars */

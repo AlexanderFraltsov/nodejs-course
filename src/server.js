@@ -5,11 +5,9 @@ process
     processErrorLogger(err.message, 'Unhandled Rejection');
   })
   .on('uncaughtException', err => {
-    processErrorLogger(err.message, 'Uncaught Exception');
+    const logger = processErrorLogger(err.message, 'Uncaught Exception');
     const { exit } = process;
-    setTimeout(() => {
-      exit(1);
-    }, 20);
+    logger.on('finish', () => exit(1));
   });
 
 const { PORT } = require('./common/config');
