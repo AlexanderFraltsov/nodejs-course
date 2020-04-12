@@ -1,5 +1,3 @@
-const { PORT } = require('./common/config');
-const app = require('./app');
 const { processErrorLogger } = require('./middlewares/logger');
 
 process
@@ -11,6 +9,9 @@ process
     const { exit } = process;
     exit(1);
   });
+
+const { PORT } = require('./common/config');
+const app = require('./app');
 
 app.listen(PORT, () =>
   console.log(`App is running on http://localhost:${PORT}`)
