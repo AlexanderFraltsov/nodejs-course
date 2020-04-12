@@ -7,7 +7,9 @@ process
   .on('uncaughtException', err => {
     processErrorLogger(err.message, 'Uncaught Exception');
     const { exit } = process;
-    exit(1);
+    setTimeout(() => {
+      exit(1);
+    }, 20);
   });
 
 const { PORT } = require('./common/config');
