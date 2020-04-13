@@ -13,6 +13,8 @@
     "lint": "eslint ./ --ignore-path .gitignore --fix",
     "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace",
     "test-u": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/users.test.js\" --noStackTrace",
+    "test-b": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/boards.test.js\" --noStackTrace",
+    "test-t": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/tasks.test.js\" --noStackTrace",
     "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace"
   },
   "nodemonConfig": {
