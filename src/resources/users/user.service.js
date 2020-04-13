@@ -1,4 +1,4 @@
-const usersRepo = require('./user.memory.repository');
+const usersRepo = require('./user.db.repository');
 const tasksRepo = require('../tasks/task.memory.repository');
 
 const User = require('./user.model');
@@ -15,10 +15,8 @@ const getOneById = async id => {
   }
 };
 
-const postOne = async ({ name, login, password }) => {
-  const user = new User({ name, login, password });
-
-  const result = await usersRepo.postOne({ ...user });
+const postOne = async user => {
+  const result = await usersRepo.postOne(user);
   return User.toResponse(result);
 };
 
