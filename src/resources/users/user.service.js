@@ -1,11 +1,11 @@
 const usersRepo = require('./user.db.repository');
-const tasksRepo = require('../tasks/task.memory.repository');
+const tasksRepo = require('../tasks/task.db.repository');
 
 const User = require('./user.model');
 
 const getAll = async () => {
   const users = await usersRepo.getAll();
-  return users.map(User.toResponse);
+  return users;
 };
 
 const getOneById = async id => {
@@ -37,6 +37,7 @@ const deleteOneById = async userId => {
   }
 
   const isDeleted = await usersRepo.deleteOneById(userId);
+
   return isDeleted;
 };
 
