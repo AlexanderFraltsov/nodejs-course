@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
+const { MONGO_CONNECTION_STRING } = require('../src/common/config');
 
 const connectToDB = cb => {
-  mongoose.connect(
-    'mongodb+srv://admin:admin@cluster0-pxfzs.mongodb.net/rest?retryWrites=true&w=majority',
-    { useNewUrlParser: true, useUnifiedTopology: true }
-  );
+  mongoose.connect(MONGO_CONNECTION_STRING, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  });
 
   const db = mongoose.connection;
 
