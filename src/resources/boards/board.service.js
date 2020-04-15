@@ -1,12 +1,11 @@
-// const boardRepo = require('./board.memory.repository');
 const boardRepo = require('./board.db.repository');
-const tasksRepo = require('../tasks/task.memory.repository');
+const tasksRepo = require('../tasks/task.db.repository');
 const Board = require('./board.model');
 const Column = require('./column.model');
 
 const getAll = async () => {
   const boards = await boardRepo.getAll();
-  return boards.map(Board.toResponse);
+  return boards;
 };
 
 const getOneById = async id => {

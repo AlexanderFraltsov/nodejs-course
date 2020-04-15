@@ -1,19 +1,6 @@
 const mongoose = require('mongoose');
 const uuid = require('uuid');
 
-/*
-class Board {
-  constructor({ id = uuid(), title = 'TITLE', columns = [] } = {}) {
-    this.id = id;
-    this.title = title;
-    this.columns = columns;
-  }
-
-  static toResponse(board) {
-    return board;
-  }
-}
-*/
 const boardSchema = new mongoose.Schema(
   {
     title: {

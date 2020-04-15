@@ -2,20 +2,22 @@ const Board = require('./board.model');
 
 const getAll = async () => {
   const boards = await Board.find({}).exec();
-  return boards;
+  return boards.map(Board.toResponse);
 };
 
 const getOneById = async id => {
-  return Board.findById(id);
+  const board = await Board.findById(id);
+  return board !== null ? board : undefined;
 };
 
-const postOne = async board => {
-  const b = await Board.create(board);
-  return b;
+const postOne = async data => {
+  const board = await Board.create(data);
+  return board;
 };
 
 const putOneById = async (id, board) => {
-  return Board.updateOne({ _id: id }, board);
+  await Board.updateOne({ _id: id }, board);
+  return getOneById(id);
 };
 
 const deleteOneById = async id => {
