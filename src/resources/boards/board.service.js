@@ -5,7 +5,7 @@ const Column = require('./column.model');
 
 const getAll = async () => {
   const boards = await boardRepo.getAll();
-  return boards;
+  return boards.map(Board.toResponse);
 };
 
 const getOneById = async id => {

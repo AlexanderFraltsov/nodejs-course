@@ -2,7 +2,7 @@ const User = require('./user.model');
 
 const getAll = async () => {
   const users = await User.find({}).exec();
-  return users.map(User.toResponse);
+  return users;
 };
 
 const getOneById = async id => {
@@ -16,8 +16,8 @@ const postOne = async data => {
 };
 
 const putOneById = async (id, data) => {
-  await User.updateOne({ _id: id }, data);
-  return getOneById(id);
+  const isUpdate = (await User.updateOne({ _id: id }, data)).ok;
+  return isUpdate === 1 ? data : undefined;
 };
 
 const deleteOneById = async id => {

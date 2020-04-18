@@ -5,7 +5,7 @@ const User = require('./user.model');
 
 const getAll = async () => {
   const users = await usersRepo.getAll();
-  return users;
+  return users.map(User.toResponse);
 };
 
 const getOneById = async id => {

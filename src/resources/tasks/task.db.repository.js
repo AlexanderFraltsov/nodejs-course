@@ -16,9 +16,8 @@ const postOne = async data => {
 };
 
 const putOneById = async (id, data) => {
-  await Task.updateOne({ _id: id }, data);
-  const task = await getOneById(id);
-  return task;
+  const isUpdate = (await Task.updateOne({ _id: id }, data)).ok;
+  return isUpdate === 1 ? data : undefined;
 };
 
 const deleteOneById = async id => {

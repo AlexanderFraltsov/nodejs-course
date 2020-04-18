@@ -2,7 +2,7 @@ const Board = require('./board.model');
 
 const getAll = async () => {
   const boards = await Board.find({}).exec();
-  return boards.map(Board.toResponse);
+  return boards;
 };
 
 const getOneById = async id => {
@@ -15,9 +15,9 @@ const postOne = async data => {
   return board;
 };
 
-const putOneById = async (id, board) => {
-  await Board.updateOne({ _id: id }, board);
-  return getOneById(id);
+const putOneById = async (id, data) => {
+  const isUpdate = (await Board.updateOne({ _id: id }, data)).ok;
+  return isUpdate === 1 ? data : undefined;
 };
 
 const deleteOneById = async id => {
