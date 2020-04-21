@@ -1,3 +1,5 @@
+const bcrypt = require('bcrypt');
+
 const usersRepo = require('./user.db.repository');
 const tasksRepo = require('../tasks/task.db.repository');
 
@@ -16,7 +18,10 @@ const getOneById = async id => {
 };
 
 const postOne = async user => {
-  const result = await usersRepo.postOne(user);
+  const { password } = user;
+  const saltRounds = 10;
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
+  const result = await usersRepo.postOne({ ...user, password: hashedPassword });
   return User.toResponse(result);
 };
 
