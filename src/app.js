@@ -4,6 +4,7 @@ const path = require('path');
 const YAML = require('yamljs');
 
 const { incomingLogger, errorLogger } = require('./middlewares/logger');
+const checkToken = require('./middlewares/check-token');
 
 const loginRouter = require('./resources/login/login.router');
 const userRouter = require('./resources/users/user.router');
@@ -27,6 +28,7 @@ app.use('/', (req, res, next) => {
 
 app.use(incomingLogger);
 
+app.use(checkToken);
 app.use('/login', loginRouter);
 app.use('/users', userRouter);
 app.use('/boards', boardRouter);

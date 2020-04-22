@@ -11,4 +11,6 @@ const MESSAGES = {
   DELETE_BOARD_SUCCESSFULL_MESSAGE: 'The board has been deleted'
 };
 
-module.exports = { ERRORS, MESSAGES };
+const SALT_ROUNDS = 10;
+
+module.exports = { ERRORS, MESSAGES, SALT_ROUNDS };
