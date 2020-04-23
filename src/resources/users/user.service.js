@@ -1,9 +1,8 @@
-const bcrypt = require('bcrypt');
-
 const usersRepo = require('./user.db.repository');
 const tasksRepo = require('../tasks/task.db.repository');
-const { SALT_ROUNDS } = require('../../common/constants');
 const User = require('./user.model');
+
+const { hashPassword } = require('../../utils');
 
 const getAll = async () => {
   const users = await usersRepo.getAll();
@@ -18,13 +17,13 @@ const getOneById = async id => {
 };
 
 const postOne = async user => {
-  const password = await bcrypt.hash(user.password, SALT_ROUNDS);
+  const password = await hashPassword(user);
   const result = await usersRepo.postOne({ ...user, password });
   return User.toResponse(result);
 };
 
 const putOneById = async (id, user) => {
-  const password = await bcrypt.hash(user.password, SALT_ROUNDS);
+  const password = await hashPassword(user);
   const result = await usersRepo.putOneById(id, { ...user, password });
   if (result) {
     return User.toResponse(result);
