@@ -1,7 +1,8 @@
 const ERRORS = {
   TASK_NOT_FOUND: 'Task not found',
   USER_NOT_FOUND: 'User not found',
-  BOARD_NOT_FOUND: 'Board not found'
+  BOARD_NOT_FOUND: 'Board not found',
+  INCORRECT_LOGIN_OR_PASSWORD: 'Incorrect login or password'
 };
 
 const MESSAGES = {
@@ -10,4 +11,6 @@ const MESSAGES = {
   DELETE_BOARD_SUCCESSFULL_MESSAGE: 'The board has been deleted'
 };
 
-module.exports = { ERRORS, MESSAGES };
+const SALT_ROUNDS = 10;
+
+module.exports = { ERRORS, MESSAGES, SALT_ROUNDS };
